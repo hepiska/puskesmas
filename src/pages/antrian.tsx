@@ -2,6 +2,7 @@ import React , {useEffect, useState} from "react"
 import { Table, Tag, Space, Select } from 'antd'
 import PuskesmasLayout from "@src/components/layout/puskes-layout"
 import QueuTable from "@src/components/organisms/queue-table"
+import {useSelector} from 'react-redux'
 import {useGetServices} from '@src/hooks/services'
 import {useQuery} from '@src/hooks/routers'
 import RunningText from "@src/components/organisms/running-text"
@@ -18,6 +19,8 @@ const {Option} = Select
 
 const AntrianPage : React.FC<any> = ({ history }) => {
   const [services] = useGetServices()
+  const isAuth = useSelector((state: any) => state.auth.isAuth)
+
   const [queries] = useQuery()
   const location = useLocation()
   const viewServices = queries.get("services")
@@ -41,6 +44,11 @@ const AntrianPage : React.FC<any> = ({ history }) => {
     }
   }
   const servicesstr = services.map(service => ({value: service.key , text: service.name}))
+
+  if(!isAuth){
+    history.replace("/login")
+  }
+
   return(
     <PuskesmasLayout>
       <div style={{display: 'flex', alignItems: 'center'}}>

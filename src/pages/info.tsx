@@ -7,6 +7,8 @@ import { useParams} from "react-router-dom"
 import RunningText from "@src/components/organisms/running-text"
 import ReactPlayer from 'react-player'
 import {useInfos} from '@src/hooks/infos'
+import {useSelector} from 'react-redux'
+
 
 
 import {
@@ -23,6 +25,13 @@ const {Title} = Typography
 const InfoPage : React.FC<any> = ({ history }) => {
   const {type} = useParams() as any
   const [infos] = useInfos(type)
+  const isAuth = useSelector((state: any) => state.auth.isAuth)
+
+
+  if(!isAuth){
+    history.replace("/login")
+  }
+
 
   if(!infos || !infos.length ){
     return (
@@ -31,7 +40,6 @@ const InfoPage : React.FC<any> = ({ history }) => {
       </div>
     )
   }
-  console.log("infos", infos)
 
   if(type === "video"){
     const urls = infos.map((data: any) => data.url)

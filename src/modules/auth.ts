@@ -11,8 +11,8 @@ interface AuthType {
 const user = localStorage.getItem("user")
 
 const initialState: AuthType  = {
-  user: user && JSON.parse(user) ,
-  isAuth: false,
+  user: user && JSON.parse(user),
+  isAuth: user? true : false,
 }
 
 
