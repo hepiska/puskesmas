@@ -1,11 +1,16 @@
 import React, {useEffect, useState} from "react"
 import { Row, Col, Divider, Button, Pagination} from 'antd'
 import {PlusOutlined} from '@ant-design/icons'
-import {getusers} from '@src/methods/user'
+import {getusers, deleteUser} from '@src/methods/user'
 import { Table, Tag, Space } from 'antd'
 
 
-const columns = [{title: 'Nama', dataIndex:"name", key: "name"}, {title: 'Email', dataIndex:"email", key: "email"}]
+const columns = [{title: 'Nama', dataIndex:"name", key: "name"}, {title: 'Email', dataIndex:"email", key: "email"},
+  {title:"Tindakan", dataIndex:"action", render: (text: string, record: any) =>(
+    <div>
+      <Button danger type="link" onClick={() =>{deleteUser(record.email)}}>Hapus</Button>
+    </div>
+  )}]
 
 
 const UserPage : React.FC = () => {

@@ -21,7 +21,7 @@ const tailLayout = {
 }
 
 const LoginPage : React.FC<AdminPagesProps> = ({history}) => {
-  const isAuth = useSelector((state: any) => state.auth)
+  const isAuth = useSelector((state: any) => state.auth.isAuth)
 
   const onFinish = async(values: any) => {
     try {

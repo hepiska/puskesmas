@@ -6,7 +6,10 @@ import AdminPages from "./admin"
 import {LOGIN, LOGOUT} from '@src/modules/auth'
 import {auth, db} from '@src/utils/firebase'
 import LoginPage from "./login"
+import AntrianPage from "./antrian"
 import Fasilitas from "./puskesmas-detail"
+import InfoPage from "./info"
+
 
 const userDb = db.collection("users")
 
@@ -20,14 +23,13 @@ const App : React.FC= () => {
         }
         return null
       })
-      console.log(userData)
       if(userData){
         dispatch(LOGIN(userData))
       }
     }
   }
   useEffect(() => {
-    const unSubcription =  auth.onAuthStateChanged(res => {
+    const unSubcription = auth.onAuthStateChanged(res => {
       if(res){
         const user = auth.currentUser
         setUserAuth(user)
@@ -55,6 +57,16 @@ const App : React.FC= () => {
         exact
         path="/fasilitas/:id"
         component={Fasilitas}
+      />
+      <Route
+        exact
+        path="/antrian"
+        component={AntrianPage}
+      />
+      <Route
+        exact
+        path="/info/:type"
+        component={InfoPage}
       />
       <Route
         exact

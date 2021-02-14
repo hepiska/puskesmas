@@ -4,6 +4,7 @@ import UserLayout from "@src/components/layout/user-layout"
 import {useParams} from 'react-router-dom'
 import {getPuskesmas} from '@src/methods/puskesmas'
 import {getServices, userGetServices} from '@src/methods/layanan'
+import QueuTableModal from "@src/components/organisms/queue-table-modal"
 
 import AddqueueModal from "@src/components/organisms/add-queue-modal"
 import { EditOutlined, EllipsisOutlined, SettingOutlined, CompassOutlined, WhatsAppOutlined } from '@ant-design/icons'
@@ -21,6 +22,8 @@ const MainPage : React.FC<any>= ({ history}) => {
   const [selectedServices, setSelectedServices] = useState("")
  
   const [queueModalOpen, setQueueModal] = useState(false)
+  const [QueuTableModalOpen, setTableModal] = useState(false)
+
   const {id} = useParams() as any
   useEffect(() => {
     getPuskesmas(id).then(_data => {
@@ -32,8 +35,10 @@ const MainPage : React.FC<any>= ({ history}) => {
   },[id])
 
   return (
-    <UserLayout style={{padding: 0}}>
+    <UserLayout style={{padding: "0px 0px 64px"}}>
       {queueModalOpen && <AddqueueModal isOpen={queueModalOpen} onClose={() => setQueueModal(false)} problems={puskesmas && puskesmas.problems} puskesmasKey={id} />}
+      {QueuTableModalOpen && <QueuTableModal isOpen={QueuTableModalOpen} 
+        services={services} onClose={() => setTableModal(false)} ></QueuTableModal>}
       {puskesmas? (<div style={{width: '100%'}}>
         {puskesmas.baners && (
           <Carousel>
@@ -49,13 +54,23 @@ const MainPage : React.FC<any>= ({ history}) => {
         </div>
 
         <div style={{ padding: 8, alignItems: 'center', margin:"16px 0px", justifyContent: 'center', flexDirection: 'column' ,display: 'flex',}}>
-          <Button type="primary" shape="round" size="large" onClick={() => setQueueModal(true)} >Daftar Layanan</Button>
+          <Button type="primary" shape="round" size="large" onClick={() => setTableModal(true)} >Lihat Antrian</Button>
+
+          <Button  style={{marginTop: 16} } type="primary" shape="round" size="large" onClick={() => setQueueModal(true)} >Daftar Layanan</Button>
           <Button shape="round" 
             size="large" style={{marginTop: 16} }
             onClick={() => window.open(`https://wa.me/${puskesmas.phone}?text=halo ${puskesmas.name}`)} 
-            icon={ <WhatsAppOutlined />} >Wa</Button>
+            icon={ <WhatsAppOutlined />} >Hubungi</Button>
 
         </div>
+        <div style={{ padding: "0px 8px", margin:"16px 0px"}}>
+          <h2 style={{textAlign: "center", }}>Lokasi</h2>
+          <div style={{width: "100%",}} className="map-responsive">
+            <div  dangerouslySetInnerHTML={{__html: puskesmas.location}} />
+
+          </div>
+        </div>
+
 
 
       </div>): <Spin style={{margin: "auto", alignSelf: "center"}} />   }

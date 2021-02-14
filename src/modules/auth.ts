@@ -8,8 +8,10 @@ interface AuthType {
   isAuth: boolean
 }
   
+const user = localStorage.getItem("user")
+
 const initialState: AuthType  = {
-  user: null,
+  user: user && JSON.parse(user) ,
   isAuth: false,
 }
 
@@ -22,11 +24,13 @@ const AuthReducer  = (state = initialState, action: any): AuthType => {
         return initialState
       }
       localStorage.setItem("puskesmas", action.payload.puskesmas)
+      localStorage.setItem("user", JSON.stringify(action.payload))
+
       newState = action.payload
       return {user: action.payload, isAuth:true}
     case type.LOGOUT:
       return {
-        user: '',
+        user: null,
         isAuth: false,
       }
     default:

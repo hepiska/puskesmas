@@ -6,7 +6,7 @@ import {getQueues} from '@src/methods/queue'
 export const useQueues  = (service: string, limit?: number | undefined): [queues: any] => {
   const [queues, setQueues] = useState(null) as any
   useEffect(() => {
-    let getData = getQueues(service).orderBy("updatedAt","desc")
+    let getData = getQueues(service).orderBy("updatedAt","asc")
 
     if(limit){
       getData = getData.limit(limit)

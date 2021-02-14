@@ -1,7 +1,7 @@
 import React , {useState , memo} from "react"
 import { Layout, Menu, Breadcrumb,  } from 'antd'
 import { RouteComponentProps, Switch , Route} from 'react-router-dom'
-
+import { useSelector, useDispatch } from 'react-redux'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -11,6 +11,7 @@ import {
 } from '@ant-design/icons'
 import "./admin.css"
 import { RouteItems } from './routes'
+import {LOGOUT} from '@src/modules/auth'
 const { Header, Content, Footer, Sider } = Layout
 const { SubMenu } = Menu
 
@@ -23,7 +24,11 @@ interface AdminPagesProps  extends RouteComponentProps {
 const AdminPages: React.FC <AdminPagesProps>= ({ history }) =>{
   const [collapsed, setIsCollapsed] = useState(false)
   const pos = history.location.pathname.split('/')
-  console.log(pos[2])
+  const user = useSelector((state: any )=> state?.auth?.user)
+
+  if(!user){
+    history.replace("/")
+  }
 
   return (
     <Layout className="layout" style={{ minHeight: '100vh' }}>

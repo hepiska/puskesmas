@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react"
-import { Form, Input, Button, Checkbox, Avatar, message, Divider ,
+import { Form, Input, Button,  message, Divider ,
   Spin,Typography, Upload, } from 'antd'
-import {createUser} from '@src/methods/user'
 import { useSelector } from 'react-redux'
 import {getPuskesmas, editPuskesmas}  from '@src/methods/puskesmas'
-import { InboxOutlined, PlusOutlined } from '@ant-design/icons'
+import { PlusOutlined } from '@ant-design/icons'
 import { upload} from '@src/methods/uploads'
 import Tags from "@src/components/atoms/tags"
 
@@ -24,6 +23,7 @@ const PuskesmasPage : React.FC = () => {
   const puskesmaskey = useSelector((state: any )=> state?.auth?.user?.puskesmas)
   const [puskesmas, setPuskesmas] =  useState(null)  as any
   const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     if(puskesmaskey){
       getPuskesmas(puskesmaskey).then(puskesmas => {

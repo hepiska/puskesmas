@@ -1,6 +1,7 @@
 import React , {useState} from "react"
 import { Card, Select, Button, message} from 'antd'
 import {editQueue} from '@src/methods/queue'
+import Dayjs from 'dayjs'
 
 const { Meta } = Card
 const {Option} = Select
@@ -13,7 +14,6 @@ const QueueCard : React.FC<any>= ({queue, services, showSkipButton, onSkip, widt
   const onClick = async () => {
     try {
       setLoading(true)
-      console.log("queue", queue.key)
       await editQueue(queue.key || queue.phone, {service: selectedServices as string})
       setLoading(false)
     } catch (error) {
@@ -30,6 +30,10 @@ const QueueCard : React.FC<any>= ({queue, services, showSkipButton, onSkip, widt
       <p>Nama:  {queue.name}</p>
       <p>Nomor Hp:  {queue.phone}</p>
       <p>Keluhan:  {queue.problem}</p>
+      <p>umur:  {queue.age}</p>
+      <p>Tanggal Lahir:  {Dayjs(queue.birth_date).format("DD/MM/YY")}</p>
+      <p>Nomor RM:  {queue.rm_number}</p>
+
       <Select 
         value={selectedServices || queue.service}
         disabled={hideButton}
@@ -41,7 +45,7 @@ const QueueCard : React.FC<any>= ({queue, services, showSkipButton, onSkip, widt
         <Option key="selesai"  value="selesai"> Selesai</Option>
       </Select>
       {!hideButton && ( <>
-        <Button style={{ margin:"5px 0px"}} onClick={onClick} block loading={loading}>Simpan</Button>
+        <Button type="primary" style={{ margin:"5px 0px"}} onClick={onClick}  block loading={loading}>Simpan</Button>
         {showSkipButton && (<Button style={{ margin:"5px 0px"}} onClick={showSkipButton} block loading={loading}>Lewatkan</Button>
         )}
       </>)}

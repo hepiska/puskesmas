@@ -60,6 +60,8 @@ const isEmpty = (string: any) => {
 
 export const createUser = async (newUser: createUserType) :  Promise<userType> => {
   try {
+    const puskesmas =  localStorage.getItem("puskesmas")  || ""
+
     if(!auth.currentUser) {
       throw new Error("tidak boleh melakukan aksi ini")
     }
@@ -74,6 +76,21 @@ export const createUser = async (newUser: createUserType) :  Promise<userType> =
     if (user.exists) {
       throw new Error("user already exists")
     }
+
+
+    const  currentInfos = await db.collection("users").where("puskesmas","==" , puskesmas).get().then(docs => {
+      const data : Array<any>= []
+      docs.forEach(doc => {
+        data.push(doc.data())
+      })
+      return data
+    })
+
+    if(currentInfos.length > 7){
+      throw new Error("sudah melewati jumlah user yang diijinkan")
+    }
+
+
 
     const newUserCreated = await auth.createUserWithEmailAndPassword(newUser.email, newUser.password).then(async (data) => {
       const token = await data.user?.getIdToken()
@@ -122,6 +139,18 @@ export const getusers = async ({key, limit = 100, last, direction}: tablePageInp
     return users
   } catch (error) {
     throw new Error(error)
+  }
+}
+
+export const deleteUser = async (key: string) :  Promise<MessageResponseType>  => {
+  try {
+    const userDb = db.collection('users')
+    await userDb.doc(key).delete()
+    return {
+      message: "berhasil menghapus data info"
+    }
+  }catch (err) {
+    throw err
   }
 }
 

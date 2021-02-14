@@ -71,6 +71,13 @@ const ServiceInfoSection : React.FC<any>= ({key}) => {
           <Input disabled={!isEdit} />
         </Form.Item>
         <Form.Item
+          label="Initial layanan"
+          name="initial"
+          rules={[{ required: true, message: 'masukan Petugas Aktif!' }]}
+        >
+          <Input disabled={!isEdit} />
+        </Form.Item>
+        <Form.Item
           label="Deskripsi"
           name="description"
           rules={[{  message: 'masukan deskirpsi!' }]}

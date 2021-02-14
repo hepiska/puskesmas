@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react"
 import {useQueues} from '@src/hooks/queue'
-import { Table, Card, Spin, Typography } from 'antd'
+import { Table, Card, Spin, Typography,  } from 'antd'
 import QueueCard from "@src/components/molecules/queue-card"
 import {getServices} from '@src/methods/layanan'
 
 
 const {Title} = Typography
+
 
 const ServiceQueue : React.FC<any> = ({service_key}) => {
   const [layanan, setLayanan] = useState([]) as any
