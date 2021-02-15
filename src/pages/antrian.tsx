@@ -5,6 +5,7 @@ import QueuTable from "@src/components/organisms/queue-table"
 import {useSelector} from 'react-redux'
 import {useGetServices} from '@src/hooks/services'
 import {useQuery} from '@src/hooks/routers'
+import VoiceComponent from "@src/components/molecules/voice"
 import RunningText from "@src/components/organisms/running-text"
 import {
   useLocation
@@ -51,7 +52,7 @@ const AntrianPage : React.FC<any> = ({ history }) => {
 
   return(
     <PuskesmasLayout>
-      <div style={{display: 'flex', alignItems: 'center'}}>
+      <div style={{display: 'flex', alignItems: 'center', position: 'relative',}}>
         <Select 
           onChange={(value: string) => {addService(value)}}
           style={{width: "200px", margin:"5px 0px"}}>
@@ -63,7 +64,7 @@ const AntrianPage : React.FC<any> = ({ history }) => {
           {viewServices && viewServices.split(",")
             .map((service: string) => <Tag closable onClose={() => {deleteServiceView(service)}} key={service}>{servicesstr.find(key => key.value === service)?.text}</Tag>)
           }
-
+          <VoiceComponent style={{position: "absolute" , right: 20, top: "50%"}}></VoiceComponent>
         </div>
       </div>
       <div style={{display: 'flex', flexWrap: 'wrap', margin:"24px 0px"}}>

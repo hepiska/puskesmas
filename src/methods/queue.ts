@@ -59,23 +59,46 @@ export const getQueues = (service: string, puskesmasKey?: string) : any => {
 }
 
 
+export const skipQueue = async  (key: string, updatedAt: string) => {
+  try {
+
+    await queueDb.doc(key).update({updatedAt})
+
+    return {
+      message: "update data berhasil berhasil"
+    }
+  } catch (error) {
+    throw error
+  }
+}
+
 
 export const editQueue = async (key: string, data: QueueEditType) => {
   try {
 
     data.updatedAt = new Date().toISOString()
     const inc = firebase.firestore.FieldValue.increment(1)
-    await layananDb.doc(data.service).update({count: inc})
-    const layanan = await layananDb.doc(data.service).get().then(doc => {
-      if(doc.exists){
-        return doc.data()
+    let layanan 
+    if(data.service !== "selesai"){
+      await layananDb.doc(data.service).update({count: inc})
+      layanan = await layananDb.doc(data.service).get().then(doc => {
+        if(doc.exists){
+          return doc.data()
+        }
+        return null
+      })
+      if(!layanan){
+        throw new Error("layanan tidak tersedia")
       }
-      return null
-    })
-    if(!layanan){
-      throw new Error("layanan tidak tersedia")
     }
-    await queueDb.doc(key).update({...data, code:  layanan.initial  + "-"+ layanan.count})
+
+    const newData ={...data} as any
+  
+    if(layanan){
+      newData.code = layanan.initial  + "-"+ layanan.count
+    }
+
+    await queueDb.doc(key).update(newData)
 
     return {
       message: "update data berhasil berhasil"

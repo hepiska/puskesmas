@@ -22,14 +22,6 @@ const ServiceDetailPage : React.FC<any> = ({ history }) => {
   const puskesmas = useSelector((state: any )=> state?.auth?.user?.puskesmas)
   const { id } = useParams() as any
 
-  const onFinish = async(values: any) => {
-    try {
-      await  createUser({...values, puskesmas})
-      history.goBack()
-    } catch (error) {
-      message.error({content: error.message, style:{marginTop: '20vh'}})
-    }
-  }
   return (
     <div>
       <Title>Detail Layanan</Title>

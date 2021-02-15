@@ -7,7 +7,7 @@ const { Meta } = Card
 const {Option} = Select
 
 
-const QueueCard : React.FC<any>= ({queue, services, showSkipButton, onSkip, width, hideButton}) => {
+const QueueCard : React.FC<any>= ({queue, services, onSkip, width, hideButton, onSuccess}) => {
   const [selectedServices, setSelectedServices] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -16,6 +16,9 @@ const QueueCard : React.FC<any>= ({queue, services, showSkipButton, onSkip, widt
       setLoading(true)
       await editQueue(queue.key || queue.phone, {service: selectedServices as string})
       setLoading(false)
+      if(onSuccess){
+        onSuccess()
+      }
     } catch (error) {
       message.error(error.message)
     }
@@ -46,7 +49,7 @@ const QueueCard : React.FC<any>= ({queue, services, showSkipButton, onSkip, widt
       </Select>
       {!hideButton && ( <>
         <Button type="primary" style={{ margin:"5px 0px"}} onClick={onClick}  block loading={loading}>Simpan</Button>
-        {showSkipButton && (<Button style={{ margin:"5px 0px"}} onClick={showSkipButton} block loading={loading}>Lewatkan</Button>
+        {onSkip && (<Button type="primary"  danger style={{ margin:"5px 0px"}} onClick={onSkip} block loading={loading}>Lewatkan</Button>
         )}
       </>)}
     </Card>

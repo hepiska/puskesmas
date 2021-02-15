@@ -1,8 +1,5 @@
-import React , {useEffect, useState} from "react"
-import { Table, Tag, Space, Select,Image, Typography, Carousel } from 'antd'
-import PuskesmasLayout from "@src/components/layout/puskes-layout"
-import QueuTable from "@src/components/organisms/queue-table"
-import {useGetServices} from '@src/hooks/services'
+import React  from "react"
+import {  Typography, Carousel } from 'antd'
 import { useParams} from "react-router-dom"
 import RunningText from "@src/components/organisms/running-text"
 import ReactPlayer from 'react-player'
@@ -10,12 +7,6 @@ import {useInfos} from '@src/hooks/infos'
 import {useSelector} from 'react-redux'
 
 
-
-import {
-  useLocation
-} from "react-router-dom"
-
-const {Option} = Select
 
 const {Title} = Typography
 
