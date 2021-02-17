@@ -18,7 +18,7 @@ const UserLayout : React.FC<any>= ({children, name, style}) => {
           </div>
         </div>
       </Header>
-      <Content className="site-layout" style={{ margin:"64px auto", width:"100%", maxWidth: 680, }}>
+      <Content className="site-layout" style={{ margin:"64px auto 0px", width:"100%", maxWidth: 680, }}>
         <div className="site-layout-background" style={ { padding: "16px 8px 64px", minHeight: 480, width: "100%", display: "flex", flexDirection: "column",...style}}>
           {children}
         </div>

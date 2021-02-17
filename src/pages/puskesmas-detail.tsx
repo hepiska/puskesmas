@@ -5,10 +5,9 @@ import {useParams} from 'react-router-dom'
 import {getPuskesmas} from '@src/methods/puskesmas'
 import {getServices, userGetServices} from '@src/methods/layanan'
 import QueuTableModal from "@src/components/organisms/queue-table-modal"
-
 import AddqueueModal from "@src/components/organisms/add-queue-modal"
-import { EditOutlined, EllipsisOutlined, SettingOutlined, CompassOutlined, WhatsAppOutlined } from '@ant-design/icons'
 
+import { EditOutlined, EllipsisOutlined, UnorderedListOutlined, FileTextOutlined, CompassOutlined, WhatsAppOutlined } from '@ant-design/icons'
 
 const {Title, Text} = Typography
 
@@ -53,11 +52,20 @@ const MainPage : React.FC<any>= ({ history}) => {
           <Text type="secondary" style={{textAlign:"center",}}>{puskesmas.description}</Text>
         </div>
 
-        <div style={{ padding: 8, alignItems: 'center', margin:"16px 0px", justifyContent: 'center', flexDirection: 'column' ,display: 'flex',}}>
-          <Button type="primary" shape="round" size="large" onClick={() => setTableModal(true)} >Lihat Antrian</Button>
-
-          <Button  style={{marginTop: 16} } type="primary" shape="round" size="large" onClick={() => setQueueModal(true)} >Daftar Layanan</Button>
+        <div style={{ padding: 16,maxWidth: 360, alignItems: 'center', margin:"16px auto", justifyContent: 'center', flexDirection: 'column' ,display: 'flex',}}>
+          <Button type="primary"
+            shape="round" 
+            size="large" 
+            block icon={<FileTextOutlined/>} 
+            onClick={() => setTableModal(true)} >Lihat Antrian</Button>
+          <Button  
+            style={{marginTop: 16} } 
+            type="primary" 
+            block shape="round" 
+            icon={<UnorderedListOutlined />}
+            size="large" onClick={() => setQueueModal(true)} >Daftar Layanan</Button>
           <Button shape="round" 
+            block
             size="large" style={{marginTop: 16} }
             onClick={() => window.open(`https://wa.me/${puskesmas.phone}?text=halo ${puskesmas.name}`)} 
             icon={ <WhatsAppOutlined />} >Hubungi</Button>
