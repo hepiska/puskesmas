@@ -24,6 +24,7 @@ const AntrianPage : React.FC<any> = ({ history }) => {
 
   const [queries] = useQuery()
   const location = useLocation()
+  const isSounndOn = Boolean(queries.get("soundOn"))
   const viewServices = queries.get("services")
   const addService= (value: string) => {
     const newServices = viewServices ?  viewServices.includes(value) ? viewServices : viewServices+ "," + value : value
@@ -50,6 +51,18 @@ const AntrianPage : React.FC<any> = ({ history }) => {
     history.replace("/login")
   }
 
+  const changeSound =() => {
+    if(isSounndOn){
+      queries.delete("soundOn")
+    }else{
+      queries.set("soundOn", "true")
+    }
+    history.replace({
+      pathname: location.pathname,
+      search: queries.toString()
+    })
+  }
+
   return(
     <PuskesmasLayout>
       <div style={{display: 'flex', alignItems: 'center', position: 'relative',}}>
@@ -64,7 +77,7 @@ const AntrianPage : React.FC<any> = ({ history }) => {
           {viewServices && viewServices.split(",")
             .map((service: string) => <Tag closable onClose={() => {deleteServiceView(service)}} key={service}>{servicesstr.find(key => key.value === service)?.text}</Tag>)
           }
-          <VoiceComponent style={{position: "absolute" , right: 20, top: "50%"}}></VoiceComponent>
+          <VoiceComponent soundOn={isSounndOn}  soundChange={changeSound} style={{position: "absolute" , right: 20, top: "50%"}} />
         </div>
       </div>
       <div style={{display: 'flex', flexWrap: 'wrap', margin:"24px 0px"}}>
@@ -73,7 +86,7 @@ const AntrianPage : React.FC<any> = ({ history }) => {
           key={service} limit={10} 
           title={servicesstr.find(key => key.value === service)?.text} />)}
       </div>
-      <RunningText></RunningText>
+      <RunningText/>
     </PuskesmasLayout>
   )
 }

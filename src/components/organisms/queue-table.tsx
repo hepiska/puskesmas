@@ -24,6 +24,7 @@ const QueuTable: React.FC<any> = ({service, limit, title, showPhoneNumber, style
   return(
     <div style={{width: '23%', display: 'block', padding: "8px", margin:"0px 24px 0px 0px", 
       alignItems: 'center',
+      minHeight: 480,
       boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
       ...style
     }}>

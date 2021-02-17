@@ -88,7 +88,7 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin({
       title: 'Daftar Puskesmas',
-      template: './public/index.html',
+      template: './index.html',
       filename: './index.html',
     }),
     new MiniCssExtractPlugin({

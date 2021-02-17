@@ -72,6 +72,24 @@ export const skipQueue = async  (key: string, updatedAt: string) => {
   }
 }
 
+export const removeServiceQueue = async  (service: string) => {
+  try {
+    const puskesmas =  localStorage.getItem("puskesmas")  || ""
+    await queueDb.where("puskesmas","==", puskesmas).where("service","==", service).get().then(docs => {
+      docs.forEach((doc: any) =>{
+        doc.ref.delete()
+      })
+    })
+    await layananDb.doc(service).update({count: 0})
+
+    return {
+      message: "delete data berhasil"
+    }
+  } catch (error) {
+    throw error
+  }
+}
+
 
 export const editQueue = async (key: string, data: QueueEditType) => {
   try {

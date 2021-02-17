@@ -2,12 +2,14 @@ import React , {useState} from "react"
 import { Card, Select, Button, message} from 'antd'
 import {editQueue} from '@src/methods/queue'
 import Dayjs from 'dayjs'
+import { addNewVoice } from "@src/methods/voice-queue"
+import card from "antd/lib/card"
 
 const { Meta } = Card
 const {Option} = Select
 
 
-const QueueCard : React.FC<any>= ({queue, services, onSkip, width, hideButton, onSuccess}) => {
+const QueueCard : React.FC<any>= ({queue, services, onSkip, width, hideButton, onSuccess, showCall}) => {
   const [selectedServices, setSelectedServices] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -25,6 +27,15 @@ const QueueCard : React.FC<any>= ({queue, services, onSkip, width, hideButton, o
 
   }
 
+  const onCall = () => {
+    const cardService = services.find((data: any) => data.value === queue.service)
+    const voiceData = {
+      text: `nomor antrian ${queue.code} harap masuk ke ruang ${cardService.text}`,
+      service: queue.key,
+    }
+    addNewVoice(voiceData)
+  }
+
   return(
     <Card
       hoverable
@@ -37,6 +48,8 @@ const QueueCard : React.FC<any>= ({queue, services, onSkip, width, hideButton, o
       <p>Tanggal Lahir:  {Dayjs(queue.birth_date).format("DD/MM/YY")}</p>
       <p>Nomor RM:  {queue.rm_number}</p>
 
+
+      {!hideButton  && showCall && (<Button  style={{ margin:"5px 0px"}} onClick={onCall} block loading={loading}>Panggil</Button>)}
       <Select 
         value={selectedServices || queue.service}
         disabled={hideButton}

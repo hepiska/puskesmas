@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react"
 import {useQueues} from '@src/hooks/queue'
-import { Table, Card, Spin, Typography,  } from 'antd'
+import { Table, Card, Spin, Typography, Button , Modal} from 'antd'
 import QueueCard from "@src/components/molecules/queue-card"
 import {getServices} from '@src/methods/layanan'
 import { addNewVoice } from "@src/methods/voice-queue"
-import {skipQueue} from '@src/methods/queue'
+import {skipQueue, removeServiceQueue} from '@src/methods/queue'
 import dayjs from "dayjs"
 
 
@@ -13,6 +13,7 @@ const {Title} = Typography
 
 const ServiceQueue : React.FC<any> = ({service_key}) => {
   const [layanan, setLayanan] = useState([]) as any
+  const [showModal, setModal] =  useState(false)
   const [startWork, setStartWork] = useState(false)
   useEffect(() => {
     getServices().get().then((docs: any) =>{
@@ -33,7 +34,7 @@ const ServiceQueue : React.FC<any> = ({service_key}) => {
     const cardService = layanan.find((data: any) => data.key === currentQueue.service)
 
     const voiceData = {
-      text: `nomor antrian ${currentQueue.code} atas nama ${currentQueue.name} harap masuk ke ruang ${cardService.name}`,
+      text: `nomor antrian ${currentQueue.code} harap masuk ke ruang ${cardService.name}`,
       service: cardService.key,
     }
     addNewVoice(voiceData)
@@ -45,15 +46,32 @@ const ServiceQueue : React.FC<any> = ({service_key}) => {
     skipQueue(data.key, newDate)
   }
 
+  const confirmModal = () => {
+    Modal.confirm({
+      title: 'Menghapus semua antrian',
+      content: 'Melakukan aksi ini akan mengapus semua antrian di layanan ini apakah anda yakin?',
+      okText: 'ya',
+      onOk: () => {
+        removeServiceQueue(service_key)
+      },
+      cancelText: 'batal',
+    })
+  }
+
   return (
     <div style={{ margin:"0px 20px"}}>
-      <Title level={4} style={{ margin:"0px 16px 16px"}}>Antrian</Title>
+      <div style={{display: 'flex', justifyContent:"space-between"}}>
+        <Title level={4} style={{ margin:"0px 16px 16px", alignItems: 'center'}}>Antrian</Title>
+        <Button type="primary"  danger style={{ margin:"5px 0px"}} onClick={confirmModal} > Reset antrian </Button>
+
+      </div>
 
       <div style={{height: "75vh" , width: "100%", overflow: "scroll"}}>
         {queues && 
         queues.map((_que: any, index: number) => (<QueueCard 
           key={_que.key} 
           onSkip={() => {onSkip(_que)}}
+          showCall
           hideButton={index !== 0}
           onSuccess={callNext}
           width="70%" queue={_que} 

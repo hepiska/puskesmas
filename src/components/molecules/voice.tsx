@@ -6,18 +6,23 @@ import { deleteVoice, getVoices } from '@src/methods/voice-queue'
 
 const textToVoice = (text: string, voices: any) => {
   if(window.speechSynthesis){
-    const msg = new SpeechSynthesisUtterance()
-    msg.text = text
-    msg.pitch = 1
-    msg.rate = 0.8
-    msg.voice = voices[6]
-    window.speechSynthesis.speak(msg)
+    const audio = new Audio('ding.wav')
+    audio.play()
+    
+    const timeout = setTimeout(() => {
+      const msg = new SpeechSynthesisUtterance()
+      msg.text = text
+      msg.pitch = 1
+      msg.rate = 0.8
+      msg.voice = voices[6]
+      window.speechSynthesis.speak(msg)
+      return () => clearTimeout(timeout)
+    }, 4000)
   }
 
 }
 
-const VoiceComponent : React.FC<any> = ({style}) => {
-  const[voiceOn, setVoiceOn] = useState(false)
+const VoiceComponent : React.FC<any> = ({style, soundOn, soundChange}) => {
   const [curentVoice, setCurrentVoice] = useState<any| null>(null)
   let voices = window.speechSynthesis.getVoices()
 
@@ -31,7 +36,6 @@ const VoiceComponent : React.FC<any> = ({style}) => {
       docs.forEach(doc => {
         data.push({...doc.data(), key: doc.id})
       })
-      console.log(data)
       setCurrentVoice(data[0])
     })
     return () => {
@@ -43,10 +47,12 @@ const VoiceComponent : React.FC<any> = ({style}) => {
 
   useEffect(() =>{ 
     let timeout : any
-    if(voiceOn && curentVoice) {
+    console.log("curentVoice",curentVoice)
+
+    if(soundOn && curentVoice) {
       timeout =  setTimeout(() =>{ 
         textToVoice(curentVoice.text, voices)
-  
+        deleteVoice(curentVoice.key)
       }, 3000)
     }
 
@@ -56,13 +62,17 @@ const VoiceComponent : React.FC<any> = ({style}) => {
         clearTimeout(timeout)
       }
     }  
-  },[voiceOn, curentVoice && curentVoice.text])
+  },[soundOn, curentVoice && curentVoice.text])
 
   
   return(
     <div style={style}>
       <span style={{margin:"0px 5px"}}>Nyalakan suara</span>
-      <Switch  checked={voiceOn} onChange={() => setVoiceOn(!voiceOn)}   />
+      <Switch  checked={soundOn} onChange={() =>{
+        if(soundChange){
+          soundChange()
+        }
+      }}   />
     </div>
   )
 }
