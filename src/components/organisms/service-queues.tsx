@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react"
 import {useQueues} from '@src/hooks/queue'
 import { Table, Card, Spin, Typography, Button , Modal} from 'antd'
 import QueueCard from "@src/components/molecules/queue-card"
-import {getServices} from '@src/methods/layanan'
+import {getServices, getService} from '@src/methods/layanan'
 import { addNewVoice } from "@src/methods/voice-queue"
-import {skipQueue, removeServiceQueue} from '@src/methods/queue'
+import {skipQueue, removeServiceQueue , } from '@src/methods/queue'
 import dayjs from "dayjs"
 
 
@@ -13,8 +13,9 @@ const {Title} = Typography
 
 const ServiceQueue : React.FC<any> = ({service_key}) => {
   const [layanan, setLayanan] = useState([]) as any
-  const [showModal, setModal] =  useState(false)
-  const [startWork, setStartWork] = useState(false)
+  const [service, setService] = useState(null) as any
+
+
   useEffect(() => {
     getServices().get().then((docs: any) =>{
       const data : Array<any>= []
@@ -23,6 +24,11 @@ const ServiceQueue : React.FC<any> = ({service_key}) => {
       })
       setLayanan(data)
     }) 
+    getService(service_key).onSnapshot((_snap:any) => {
+      if(_snap.exists){
+        setService(_snap.data())
+      }
+    })
 
   },[])
   const [queues] = useQueues(service_key, 10)
@@ -37,7 +43,9 @@ const ServiceQueue : React.FC<any> = ({service_key}) => {
       text: `nomor antrian ${currentQueue.code} harap masuk ke ruang ${cardService.name}`,
       service: cardService.key,
     }
-    addNewVoice(voiceData)
+    if(service && service.isVoiceOn){
+      addNewVoice(voiceData)
+    }
   }
 
   const onSkip = (data: any) =>{
@@ -57,6 +65,7 @@ const ServiceQueue : React.FC<any> = ({service_key}) => {
       cancelText: 'batal',
     })
   }
+  console.log("===service",service)
 
   return (
     <div style={{ margin:"0px 20px"}}>

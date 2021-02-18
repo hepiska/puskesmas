@@ -1,5 +1,5 @@
-import React , {useEffect, useState} from "react"
-import { Table, Tag, Space, Typography, Divider } from 'antd'
+import React  from "react"
+import { Table, Typography, Divider } from 'antd'
 import { useQueues} from '@src/hooks/queue'
 import {hidetext} from '@src/utils/helpers'
 
@@ -22,7 +22,10 @@ const QueuTable: React.FC<any> = ({service, limit, title, showPhoneNumber, style
       render: (text: string) => <p style={{fontSize:"18px", margin:0}}>{hidetext(text, 5)}</p> })
   }
   return(
-    <div style={{width: '23%', display: 'block', padding: "8px", margin:"0px 24px 0px 0px", 
+    <div style={{width: '23%', 
+      display: 'block',
+      padding: "8px",
+      margin:"0px 24px 0px 0px", 
       alignItems: 'center',
       minHeight: 480,
       boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",

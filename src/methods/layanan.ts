@@ -12,7 +12,7 @@ interface ServiceType {
   name: string,
   author: string,
   description: string
-  isOpenAcess: boolean
+  isVoiceOn: boolean
 }
 
 
@@ -39,6 +39,7 @@ export const getServices =  () : any => {
   return servicesDb.where("puskesmas","==", puskesmas)
 
 }
+
 
 export const updateService =  async (key: string, data: any) : Promise<MessageResponseType> => {
   await servicesDb.doc(key).update({...data})

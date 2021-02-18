@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from "react"
-import { Form, Input, Button, Checkbox, Avatar, message,Spin,  Divider , Typography, Switch} from 'antd'
-import {createUser} from '@src/methods/user'
-import { useSelector } from 'react-redux'
+import { Form, Input, Button, message,Spin,  Divider , Typography, Switch} from 'antd'
 import {getService,editService} from '@src/methods/layanan'
 const { Title } = Typography
 
@@ -11,7 +9,6 @@ import {
 
 
 const { TextArea } = Input
-
 
 const tailLayout = {
   wrapperCol: { offset: 18, span: 6 },
@@ -44,7 +41,6 @@ const ServiceInfoSection : React.FC<any>= ({key}) => {
   }
 
   if(!data)return <Spin></Spin>
-
 
   return (
     <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -85,8 +81,8 @@ const ServiceInfoSection : React.FC<any>= ({key}) => {
           <TextArea disabled={!isEdit}  rows={4}/>
 
         </Form.Item>
-        <Form.Item label="Terakses Dari luar" name="isOpenAcess">
-          <Switch disabled={!isEdit}/>
+        <Form.Item label="Nyalakan suara" name="isVoiceOn">
+          <Switch disabled={!isEdit} defaultChecked={data.isVoiceOn}/>
         </Form.Item>
         {isEdit&& <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit">
