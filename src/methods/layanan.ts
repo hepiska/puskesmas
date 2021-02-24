@@ -17,12 +17,27 @@ interface ServiceType {
 
 
 export const addService = async (name: string) : Promise<MessageResponseType> => {
-  const puskesmas = localStorage.getItem("puskesmas")
-  const key = `${puskesmas}_${name.replace(" ","").toLowerCase()}`
-  await servicesDb.doc(key).set({name, puskesmas, key})
-  return {
-    message:"menambahkan layaan berhasil"
+  try {
+    const puskesmas = localStorage.getItem("puskesmas")
+    const key = `${puskesmas}_${name.replace(" ","").toLowerCase()}`
+    const services=  await servicesDb.where("puskesmas", "==", puskesmas).get().then((_docs) => {
+      const data: Array<any>  = []
+      _docs.forEach(_data => {
+        data.push(_data.data())
+      })
+      return data 
+    })
+    if(services.length > 16){
+      throw new Error("jumlah layanan melebihi limit")
+    }
+    await servicesDb.doc(key).set({name, puskesmas, key})
+    return {
+      message:"menambahkan layaan berhasil"
+    }
+  } catch (error) {
+    throw error
   }
+
 }
 
 export const editService = async (key: string, data: ServiceType) : Promise<MessageResponseType> => {

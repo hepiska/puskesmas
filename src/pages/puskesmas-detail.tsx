@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import { Layout, Menu, Breadcrumb, Image , Typography, Card, Spin, Carousel , Button} from 'antd'
+import { Layout, Image , Typography, Card, Spin, Carousel , Button, Input} from 'antd'
 import UserLayout from "@src/components/layout/user-layout"
 import {useParams} from 'react-router-dom'
 import {getPuskesmas} from '@src/methods/puskesmas'
@@ -7,7 +7,7 @@ import {getServices, userGetServices} from '@src/methods/layanan'
 import QueuTableModal from "@src/components/organisms/queue-table-modal"
 import AddqueueModal from "@src/components/organisms/add-queue-modal"
 
-import { EditOutlined, EllipsisOutlined, UnorderedListOutlined, FileTextOutlined, CompassOutlined, WhatsAppOutlined } from '@ant-design/icons'
+import { EditOutlined, EllipsisOutlined, UnorderedListOutlined, FileTextOutlined, CompassOutlined, WhatsAppOutlined , SearchOutlined} from '@ant-design/icons'
 
 const {Title, Text} = Typography
 
@@ -34,7 +34,7 @@ const MainPage : React.FC<any>= ({ history}) => {
   },[id])
 
   return (
-    <UserLayout style={{padding: "0px 0px 64px"}}>
+    <UserLayout style={{padding: "0px 0px 64px"}} action={<Input suffix={<SearchOutlined />}  placeholder="Cari antrian saya" style={{ width: '40%' }} />} >
       {queueModalOpen && <AddqueueModal isOpen={queueModalOpen} onClose={() => setQueueModal(false)} problems={puskesmas && puskesmas.problems} puskesmasKey={id} />}
       {QueuTableModalOpen && <QueuTableModal isOpen={QueuTableModalOpen} 
         services={services} onClose={() => setTableModal(false)} ></QueuTableModal>}

@@ -1,5 +1,7 @@
 import {db} from '@src/utils/firebase'
 import firebase from "firebase"
+import {removeNullData} from '@src/utils/helpers'
+
 
 
 interface QueueType {
@@ -42,7 +44,10 @@ export const addQueue = async (data: QueueType) => {
     }
     data.updatedAt = new Date().toISOString()
 
-    await queueDb.doc(data.phone).set({...data, key:data.phone})
+    const filteredObj = removeNullData(data)
+    console.log(filteredObj)
+
+    await queueDb.doc(data.phone).set({...filteredObj, key:data.phone})
 
     return {
       message: "pendaftaran berhasil"
@@ -97,6 +102,8 @@ export const editQueue = async (key: string, data: QueueEditType) => {
     data.updatedAt = new Date().toISOString()
     const inc = firebase.firestore.FieldValue.increment(1)
     let layanan 
+
+
     if(data.service !== "selesai"){
       await layananDb.doc(data.service).update({count: inc})
       layanan = await layananDb.doc(data.service).get().then(doc => {
@@ -116,7 +123,13 @@ export const editQueue = async (key: string, data: QueueEditType) => {
       newData.code = layanan.initial  + "-"+ layanan.count
     }
 
-    await queueDb.doc(key).update(newData)
+    if(data.service !== "selesai"){
+      await queueDb.doc(key).update(newData)
+
+    }else{
+      queueDb.doc(key).delete()
+    }
+
 
     return {
       message: "update data berhasil berhasil"

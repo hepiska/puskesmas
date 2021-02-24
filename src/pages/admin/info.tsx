@@ -26,7 +26,7 @@ const InfoPage : React.FC = () => {
       <AddInfoModal isOpen={isAddModaOpen} onClose={() => setIsModalOpen(false)}></AddInfoModal>
       <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
         <Title level={3}>Informasi</Title>
-        <Button  onClick={() => setIsModalOpen(true)}type="primary">Tambah antrian</Button>
+        <Button  onClick={() => setIsModalOpen(true)}type="primary">Tambah Informasi</Button>
       </div>
       <Table columns={columns} dataSource={infos} pagination={false}>
       </Table>

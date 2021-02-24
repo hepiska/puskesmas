@@ -2,21 +2,40 @@ import React, {useEffect, useState} from "react"
 import { Row, Col, Divider, Button,DatePicker, Modal, Input, Form, Select, message} from 'antd'
 import {PlusOutlined} from '@ant-design/icons'
 import {addQueue} from '@src/methods/queue'
+import {getServices} from '@src/methods/layanan'
+
 
 
 const { Option } = Select
 
 const initalForm = {}
 
-const AddServiceModal : React.FC<any> = ({isOpen, onClose, problems, puskesmasKey}) => {
+const AddServiceModal : React.FC<any> = ({isOpen, onClose, problems, puskesmasKey, showService }) => {
   const [loading, setLoading] = useState(false)
+  const [services, setServices] = useState<Array<any>| null>(null)
+
+  useEffect(() => {
+    if(showService){
+      getServices().get().then((docs: any) =>{
+        const data : Array<any>= []
+        docs.forEach((doc: any) => {
+          data.push({...doc.data(), key: doc.id})
+        })
+        setServices(data)
+      }) 
+    }
+  },[showService])
+
 
   const onFinish = async (values: any) => {
     try {
       const data ={...values}
       data.puskesmas =  puskesmasKey
       data.service = "pendaftaran"
-      data.birth_date = data.birth_date.toISOString()
+      if(data.birth_date){
+        data.birth_date = data.birth_date.toISOString()
+      }
+      console.log(data)
       setLoading(true)
       const res = await addQueue(data)
       message.success(res.message)
@@ -67,6 +86,18 @@ const AddServiceModal : React.FC<any> = ({isOpen, onClose, problems, puskesmasKe
               })}
             </Select>
           </Form.Item>
+        )}
+        {services && (
+          <Form.Item label="layanan" name="service">
+            <Select 
+              style={{width: "100%", margin:"5px 0px"}}>
+              {services.map((_ser: any) => (
+                <Option key={_ser.key}  value={_ser.key}> {_ser.name}</Option>
+              ))}
+              <Option key="selesai"  value="selesai"> Selesai</Option>
+            </Select>
+          </Form.Item>
+
         )}
         <Form.Item
           label="Nomor Kartu Berobat"

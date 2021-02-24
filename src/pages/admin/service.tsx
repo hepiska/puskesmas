@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import { Row, Col, Divider, Button, Pagination, Modal, Input, Switch} from 'antd'
+import { Row, Col, Divider, message, Button, Pagination, Modal, Input, Switch, } from 'antd'
 import {PlusOutlined} from '@ant-design/icons'
 import {addService, getServices, deleteService} from '@src/methods/layanan'
 
@@ -10,8 +10,13 @@ const AddServiceModal : React.FC<any> = ({isOpen, onClose}) => {
   const [serviceName, setServiceName] = useState("")
 
   const modalOk = async () => {
-    await addService(serviceName)
-    onClose()
+    try{
+      await addService(serviceName)
+      onClose()
+    } catch(error ){
+      message.error(error.message)
+    }
+  
   }
 
   return(

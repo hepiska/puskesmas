@@ -37,6 +37,7 @@ const RegistrationPage : React.FC<any> = ({}) => {
       <AddqueueModal
         isOpen={isAddModaOpen} 
         puskesmasKey={puskesID}
+        showService
         onClose={() => setIsModalOpen(false)}
         problems={puskesmas && puskesmas.problems}/>
       <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
