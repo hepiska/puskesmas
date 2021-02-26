@@ -14,10 +14,6 @@ import {
 const {Option} = Select
 
 
-
-
-
-
 const AntrianPage : React.FC<any> = ({ history }) => {
   const [services] = useGetServices()
   const isAuth = useSelector((state: any) => state.auth.isAuth)

@@ -63,6 +63,15 @@ export const getQueues = (service: string, puskesmasKey?: string) : any => {
   return queueDb.where("puskesmas","==", puskesmas).where("service","==", service)
 }
 
+export const getQueue = (phone: string): any => {
+  return queueDb.doc(phone).get().then((_doc) => {
+    if(_doc.exists){
+      return{..._doc.data(), key: _doc.id}
+    }
+    return null
+  })
+}
+
 
 export const skipQueue = async  (key: string, updatedAt: string) => {
   try {

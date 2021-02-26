@@ -1,13 +1,14 @@
 import React , {useEffect }from "react"
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, } from 'react-router-dom'
 import MainPage from "./main"
-import {useDispatch, useSelector } from 'react-redux'
+import {useDispatch, } from 'react-redux'
 import AdminPages from "./admin"
 import {LOGIN, LOGOUT} from '@src/modules/auth'
 import {auth, db} from '@src/utils/firebase'
 import LoginPage from "./login"
 import AntrianPage from "./antrian"
 import Fasilitas from "./puskesmas-detail"
+import Search from "./search"
 import InfoPage from "./info"
 
 
@@ -67,6 +68,11 @@ const App : React.FC= () => {
         exact
         path="/info/:type"
         component={InfoPage}
+      />
+      <Route 
+        exact
+        path="/search"
+        component={Search}
       />
       <Route
         exact
