@@ -34,7 +34,7 @@ const MainPage : React.FC<any>= ({ history}) => {
   },[id])
 
   return (
-    <UserLayout style={{padding: "0px 0px 64px"}} action={<Input suffix={<SearchOutlined />}  placeholder="Cari antrian saya" style={{ width: '40%' }} />} >
+    <UserLayout style={{padding: "0px 0px 64px"}} action={<Input suffix={<SearchOutlined />} onFocus={() => history.push("/search")}  placeholder="Cari antrian saya" style={{ width: '50%' }} />} >
       {queueModalOpen && <AddqueueModal isOpen={queueModalOpen} onClose={() => setQueueModal(false)} problems={puskesmas && puskesmas.problems} puskesmasKey={id} />}
       {QueuTableModalOpen && <QueuTableModal isOpen={QueuTableModalOpen} 
         services={services} onClose={() => setTableModal(false)} ></QueuTableModal>}
@@ -64,12 +64,15 @@ const MainPage : React.FC<any>= ({ history}) => {
             block shape="round" 
             icon={<UnorderedListOutlined />}
             size="large" onClick={() => setQueueModal(true)} >Daftar Layanan</Button>
+          <Button  
+            style={{marginTop: 16} } 
+            block shape="round" 
+            size="large" onClick={() => history.push(`/blogs/${puskesmas.key}`)} >Program dan Berita</Button>
           <Button shape="round" 
             block
             size="large" style={{marginTop: 16} }
             onClick={() => window.open(`https://wa.me/${puskesmas.phone}?text=halo ${puskesmas.name}`)} 
             icon={ <WhatsAppOutlined />} >Hubungi</Button>
-
         </div>
         <div style={{ padding: "0px 8px", margin:"16px 0px"}}>
           <h2 style={{textAlign: "center", }}>Lokasi</h2>

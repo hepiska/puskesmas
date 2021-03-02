@@ -10,6 +10,7 @@ import {
   UploadOutlined,
 } from '@ant-design/icons'
 import "./admin.css"
+import 'react-quill/dist/quill.snow.css'
 import { RouteItems } from './routes'
 import {LOGOUT} from '@src/modules/auth'
 const { Header, Content, Footer, Sider } = Layout

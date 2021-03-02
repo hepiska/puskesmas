@@ -43,6 +43,7 @@ const SearchCard = ({data}: any) => {
   if(data.service !== "pendaftaran"){
     return(
       <Card title={data.code}  style={{ width: "100%" }}>
+        <p>Nama: {data?.name} </p>
         <p>Puskesmas: {puskesmas?.name}</p>
         <p>Ruang: {layanan?.name} </p>
       </Card>

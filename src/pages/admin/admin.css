@@ -50,3 +50,7 @@
   position:absolute;
 
 }
+
+.my-editing-area{
+  height: 200px !important;
+}

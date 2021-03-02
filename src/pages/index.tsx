@@ -10,6 +10,9 @@ import AntrianPage from "./antrian"
 import Fasilitas from "./puskesmas-detail"
 import Search from "./search"
 import InfoPage from "./info"
+import Blogs from "./blogs"
+import BlogDetail from "./blogs-detail"
+
 
 
 const userDb = db.collection("users")
@@ -73,6 +76,16 @@ const App : React.FC= () => {
         exact
         path="/search"
         component={Search}
+      />
+      <Route 
+        exact
+        path="/blogs/:puskes_id"
+        component={Blogs}
+      />
+      <Route 
+        exact
+        path="/blogs-detail/:id"
+        component={BlogDetail}
       />
       <Route
         exact

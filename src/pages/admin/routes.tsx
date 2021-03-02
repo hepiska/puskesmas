@@ -1,13 +1,10 @@
 import React, { FC, ReactElement } from "react"
 import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
   UserOutlined,
-  VideoCameraOutlined,
   AlertOutlined,
   HomeOutlined,
   FileImageOutlined,
-  UploadOutlined,
+  FormOutlined,
   BookOutlined
   
 } from '@ant-design/icons'
@@ -18,6 +15,8 @@ import InfoPage from "./info"
 import NewUserPage from "./new-user"
 import ServiceDetailPage from "./services-detail"
 import RegistrationPage from "./registration"
+import BlogsPage from "./blogs"
+import DetailBlogPage from "./blog-detail"
 
 
 
@@ -69,6 +68,15 @@ export const RouteItems:Array<RouteItem> = [
     icon: <FileImageOutlined />
   },
   {
+    key: "blogs",
+    name: "Blogs",
+    url: "/admin/blogs",
+    path: "/admin/blogs",
+    icon: <FormOutlined />,
+    exact: true,
+    component: BlogsPage
+  },
+  {
     key: "pengguna",
     name: "Admin",
     url: "/admin/pengguna",
@@ -94,6 +102,15 @@ export const RouteItems:Array<RouteItem> = [
     path: "/admin/layanan/:id",
     exact: true,
     component: ServiceDetailPage
+  },
+  {
+    key: "detail-blog",
+    name: "Detail Blog",
+    hideSidebar: true,
+    url: "/admin/blogs/:id",
+    path: "/admin/blogs/:id",
+    exact: true,
+    component: DetailBlogPage
   },
   
 
