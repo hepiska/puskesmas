@@ -33,9 +33,13 @@ const MainPage : React.FC<any>= ({ history}) => {
     })
   },[id])
 
+  const onSuccessAddQueue = async (values: string) => {
+    history.push({pathname: "/search", search: `?phone=${values}`})
+  }
+
   return (
     <UserLayout style={{padding: "0px 0px 64px"}} action={<Input suffix={<SearchOutlined />} onFocus={() => history.push("/search")}  placeholder="Cari antrian saya" style={{ width: '50%' }} />} >
-      {queueModalOpen && <AddqueueModal isOpen={queueModalOpen} onClose={() => setQueueModal(false)} problems={puskesmas && puskesmas.problems} puskesmasKey={id} />}
+      {queueModalOpen && <AddqueueModal isOpen={queueModalOpen} sucessCallback={onSuccessAddQueue} onClose={() => setQueueModal(false)} problems={puskesmas && puskesmas.problems} puskesmasKey={id} />}
       {QueuTableModalOpen && <QueuTableModal isOpen={QueuTableModalOpen} 
         services={services} onClose={() => setTableModal(false)} ></QueuTableModal>}
       {puskesmas? (<div style={{width: '100%'}}>

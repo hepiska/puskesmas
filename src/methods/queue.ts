@@ -45,11 +45,11 @@ export const addQueue = async (data: QueueType) => {
     data.updatedAt = new Date().toISOString()
 
     const filteredObj = removeNullData(data)
-    console.log(filteredObj)
 
     await queueDb.doc(data.phone).set({...filteredObj, key:data.phone})
 
     return {
+      key: data.phone,
       message: "pendaftaran berhasil"
     }
 

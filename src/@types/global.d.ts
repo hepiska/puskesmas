@@ -25,5 +25,6 @@ interface tablePageInput {
 }
 
 interface MessageResponseType {
+  key?:string,
   message: string
 }

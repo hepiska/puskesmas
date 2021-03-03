@@ -4,6 +4,7 @@ import UserLayout from "@src/components/layout/user-layout"
 import {getPuskesmas} from '@src/methods/puskesmas'
 import {getQueue} from '@src/methods/queue'
 import {getService} from '@src/methods/layanan'
+import {useQuery} from '@src/hooks/routers'
 import {  FormOutlined , SearchOutlined} from '@ant-design/icons'
 import search from "antd/lib/transfer/search"
 const {Title}  =Typography
@@ -60,6 +61,8 @@ const SearchCard = ({data}: any) => {
 let timeout: any = null
 
 const SeachPage : React.FC<any>= ({ history}) => {
+  const [queries] = useQuery()
+  const phone = queries.get("phone")
   const [searchKey, setSearchKey] =  useState("") as any
   const [queue, setQueue] = useState<any>(null)
   const [loading, setLoading] = useState(false)
@@ -68,8 +71,12 @@ const SeachPage : React.FC<any>= ({ history}) => {
     if(input.current){
       input.current.focus()
     }
+    if(phone){
+      setSearchKey(phone)
+      fetchData(phone)
+    }
     
-  },[])
+  },[phone])
 
   const fetchData = async(key:string) => {
     try {
@@ -121,6 +128,7 @@ const SeachPage : React.FC<any>= ({ history}) => {
       <Input 
         ref={input}
         onChange={getData}
+        value={searchKey}
         suffix={<SearchOutlined />}  
         placeholder="Masukan nomor HP" style={{ width: '100%' }} />
       <div style={{marginTop:"24px", justifyContent: 'center', flexDirection: 'column'}}>

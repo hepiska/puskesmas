@@ -10,7 +10,7 @@ const { Option } = Select
 
 const initalForm = {}
 
-const AddServiceModal : React.FC<any> = ({isOpen, onClose, problems, puskesmasKey, showService }) => {
+const AddServiceModal : React.FC<any> = ({isOpen, onClose, problems, puskesmasKey, showService, sucessCallback }) => {
   const [loading, setLoading] = useState(false)
   const [services, setServices] = useState<Array<any>| null>(null)
 
@@ -35,12 +35,14 @@ const AddServiceModal : React.FC<any> = ({isOpen, onClose, problems, puskesmasKe
       if(data.birth_date){
         data.birth_date = data.birth_date.toISOString()
       }
-      console.log(data)
       setLoading(true)
       const res = await addQueue(data)
       message.success(res.message)
       onClose()
       setLoading(false)
+      if(sucessCallback){
+        sucessCallback(res.key)
+      }
 
     } catch (error) {
       setLoading(false)
